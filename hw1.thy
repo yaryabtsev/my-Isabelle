@@ -1,4 +1,4 @@
-theory 1
+theory hw1
 imports Main
 begin
 
