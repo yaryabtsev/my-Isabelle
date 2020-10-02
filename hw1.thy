@@ -9,7 +9,7 @@ value "1 - (2::nat)"
 value "1 - (2::int)"
 
 (*2.*)
-fun add :: "nat \<Rightarrow> nat \<Rightarrow> nat" 
+fun add :: "nat ⇒ nat ⇒ nat" 
   where "add 0 n = n " |
   "add (Suc m) n = Suc (add m n)"
 
@@ -33,7 +33,7 @@ lemma cum_add[simp]: "add x y = add y x"
    apply auto
   done
 
-fun double  :: "nat \<Rightarrow> nat"
+fun double  :: "nat ⇒ nat"
   where "double  0 =  0" |
 "double (Suc x) = Suc (Suc (double x))"
 
@@ -43,80 +43,54 @@ lemma double_prop[simp] : "double x = add x x"
   done
 
 (*3.*)
-fun count :: "'a \<Rightarrow> 'a list \<Rightarrow> nat"
+fun count :: "'a ⇒ 'a list ⇒ nat"
   where  "count a [] = 0" |
 "count a (x#xs) = (if a = x then add 1 (count a xs) else count a xs)"
 
 value "count (2::nat) [2, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1]"
 
-lemma max_count[simp] : "count a xs \<le> length xs"
+lemma max_count[simp] : "count a xs ≤ length xs"
   apply(induction xs)
   apply(auto)
   done
 
 (*4.*)
-fun snoc :: "'a list \<Rightarrow> 'a \<Rightarrow> 'a list"
+fun snoc :: "'a list ⇒ 'a ⇒ 'a list"
   where  "snoc [] a = [a]" |
 "snoc (x#xs) a= x#snoc xs a"
 
 value "snoc [2, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1::int] 0"
 
-fun reverse :: "'a list \<Rightarrow> 'a list"
+fun reverse :: "'a list ⇒ 'a list"
   where "reverse [] = []" |
 "reverse (x#xs) = snoc (reverse xs) x"
 
 value "reverse [2, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1::int]"
 
-
-lemma snoc_rev[simp] : "snoc (reverse xs) a = reverse (a # xs)"
+lemma about_reverse2[simp] : " reverse(snoc xs a) = (a # reverse(xs)) "
+  apply (induction xs)
+   apply (auto)
+  done
+lemma snoc_rev[simp] : " reverse (a # xs) = snoc (reverse xs) a "
   apply(induction xs)
   apply(auto)
   done
 
 lemma rev_reverse[simp] : "reverse (reverse xs) = xs"
   apply(induction xs)
-    apply(auto)
+  apply auto
   done
-  (*oops*)
 
 (*5.*)
-fun sum_upto :: "nat \<Rightarrow> nat"
+fun sum_upto :: "nat ⇒ nat"
   where "sum_upto 0 = 0" |
-"sum_upto a = add a (sum_upto (a - 1))"
-
-fun sum :: "nat list \<Rightarrow> nat"
-  where "sum [] = 0" | 
-"sum (x#xs) = add x (sum xs)"
-
-fun mk_list :: "nat \<Rightarrow> nat list"
-  where "mk_list 0 = []" |
-"mk_list a = snoc (mk_list (a-1)) a"
-
-fun sum_upto' :: "nat \<Rightarrow> nat"
-  where "sum_upto' 0 = sum []" |
-"sum_upto' a = sum (mk_list a)"
+"sum_upto (Suc a) = Suc a + (sum_upto (a))"
 
 value "sum_upto 10"
-value "sum_upto' 10"
-value "sum_upto 6"
-value " add 5 (Suc ((5 + 5 * 5) div 2))"
-value "sum [0, 1, 2]"
-value "mk_list 10"
 
-lemma next_sum[simp] : "add (sum_upto a) (Suc(a)) = sum_upto(Suc(a))"
+lemma auto_sum[simp] : "sum_upto a = ((a * (a + 1)) div 2)"
   apply(induction a)
-   apply(auto)
+  apply auto
   done
-
-lemma next_sum'[simp] : "snoc (mk_list a) (Suc a) = mk_list(Suc a)"
-  apply(induction a)
-   apply(auto)
-  done
-
-lemma auto_sum[simp] : "sum_upto' a = ((a * (a + 1)) div 2)"
-  apply(induction a)
-    apply(auto)
-  done
-  (*oops*)
 
 end
