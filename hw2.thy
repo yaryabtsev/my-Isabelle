@@ -47,6 +47,26 @@ OD
   done
 
 (*3*)
+(*5*)
+fun itadd::"nat ⇒ nat ⇒ nat"  where 
+ "itadd 0 n = n" |
+ "itadd (Suc m) n = itadd m (n + 1) " 
 
+fun add :: "nat ⇒ nat ⇒ nat" 
+  where "add 0 n = n " |
+  "add (Suc m) n = Suc (add m n)"
+
+value "itadd 14 17"
+value "add 14 17"
+
+lemma cum_add[simp]: "add m (Suc n) = Suc (add m n)"
+  apply (induction m)
+   apply auto
+  done
+
+lemma addEquals : "itadd m n = add m n"
+apply (induction m  arbitrary: n)
+  apply (auto)
+  done
 
 end
