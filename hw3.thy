@@ -1,5 +1,7 @@
 theory hw3
-  imports Main
+  imports  
+  "HOL-Library.Countable_Set"
+  abbrevs "|=0" = "⊨⇩∅" and "||=0" = "⊫⇩∅" and ",," = "⇩♭"
 begin
 (*1*)
 datatype exp = Var | Const int | Add exp exp | Mult exp exp
@@ -63,6 +65,20 @@ theorem preservation : "evalp (coeff e) x = eval e x"
   done
 
 (*2*)
+
+abbreviation vx ("❙x") where "❙x ≡ Var"
+abbreviation add (infixl "❙+" 65) where "a ❙+ b ≡ Add a b"
+abbreviation mul (infixl "❙×" 70) where "a ❙× b ≡ Mult a b"
+abbreviation num ("❙_" [1000] 1000) where "❙a ≡ Const a"
+
+no_notation  power2  ("(_⇧2)" [1000] 999)
+
+primrec pow :: "exp ⇒ nat ⇒ exp" ("_⇧_" [1000, 1000] 80)  
+  where
+  "pow x 0       = ❙1"
+| "pow x (Suc n) = x ❙× (pow x n)"
+
+value "eval( ❙4 ❙+ ❙2❙×❙x⇧3 ❙+ ❙(-1) ❙× ❙x⇧2 ❙+ ❙3❙×❙x⇧3) 3"
 
 (*3*)
           
