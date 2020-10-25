@@ -23,21 +23,21 @@ OD
 
 (*2*)
 
-function sum :: "nat ⇒ nat ⇒ nat"
+function sum :: "nat \<Rightarrow> nat \<Rightarrow> nat"
   where "sum i N = (if i > N then 0 else i + sum (Suc i) N)"
   by pat_completeness auto
 termination sum
-  apply (relation "measure (λ(i,N). N + 1 - i)")
+  apply (relation "measure (\<lambda>(i,N). N + 1 - i)")
   apply auto
   done
 
 value "sum 1 2"
 
 lemma SumLemma: "VARS (s :: nat) (i :: nat) 
-{b≥0}
+{b\<ge>0}
 s:=0;
 i:=a;
-WHILE i ≤ b
+WHILE i \<le> b
 INV { sum a b = s + sum i b }
 DO
 s := s + i; 
@@ -49,10 +49,10 @@ OD
 
 (*3*)
 
-function perm::"nat list ⇒ nat list ⇒ bool" 
+function perm::"nat list \<Rightarrow> nat list \<Rightarrow> bool" 
   where "perm [] [] = True" |
 "perm [] (y#ys) = False" |
-"perm (x#xs) ys = (if length (x#xs) ≠ length ys then False 
+"perm (x#xs) ys = (if length (x#xs) \<noteq> length ys then False 
                   else perm (removeAll x xs) (removeAll x ys))"
   apply (metis list.exhaust subset_eq_mset_impl.cases)
   apply (auto)
@@ -63,11 +63,11 @@ function perm::"nat list ⇒ nat list ⇒ bool"
 
 datatype tree0 = Node tree0 tree0 | Nil
 
-fun nodes :: "tree0 ⇒ nat" where
+fun nodes :: "tree0 \<Rightarrow> nat" where
 "nodes Nil = 0" |
 "nodes (Node l r) = Suc(nodes l + nodes r)"
 
-fun explode :: "nat ⇒ tree0 ⇒ tree0" where
+fun explode :: "nat \<Rightarrow> tree0 \<Rightarrow> tree0" where
 "explode 0 t = t"|
 "explode (Suc n) t = explode n (Node t t)"
 
@@ -81,11 +81,11 @@ lemma "nodes(explode n t) = 2^(n)*(Suc(nodes t)) - 1 "
 
 
 (*5*)
-fun itadd::"nat ⇒ nat ⇒ nat"  where 
+fun itadd::"nat \<Rightarrow> nat \<Rightarrow> nat"  where 
  "itadd 0 n = n" |
  "itadd (Suc m) n = itadd m (n + 1) " 
 
-fun add :: "nat ⇒ nat ⇒ nat" 
+fun add :: "nat \<Rightarrow> nat \<Rightarrow> nat" 
   where "add 0 n = n " |
   "add (Suc m) n = Suc (add m n)"
 
