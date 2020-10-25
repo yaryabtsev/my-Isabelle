@@ -136,12 +136,12 @@ proof -
    thus ?thesis by blast 
  qed
 
-(*lemma two_lines_unique_intersect_pt:
-  assumes l m: "l\<noteq>m and on x l and on x m and on y l and on y m shows x=y"
+lemma two_lines_unique_intersect_pt:
+  assumes lm: "l\<noteq>m \<and> on x l \<and> on x m \<and> on y l \<and> on y m" shows "x=y"
 proof(rule ccontr)
-  assumes "x\<noteq>y" then have "l=m" using line_on_two_pts_unique assms by simp
+  assume "x\<noteq>y" then have "l=m" using line_on_two_pts_unique assms by blast
   thus False using lm by simp
-qed*)
+qed
 
 end
 
