@@ -31,7 +31,7 @@ termination sum
   apply auto
   done
 
-value "sum 1 2"
+value "sum 1 4"
 
 lemma SumLemma: "VARS (s :: nat) (i :: nat) 
 {b\<ge>0}
@@ -47,18 +47,31 @@ OD
   apply vcg_simp
   done
 
+lemma "VARS (s :: nat) (i :: nat)
+{n \<ge> 1}
+  s := 0; 
+  i := 0;
+WHILE i \<le> n
+  INV {2 * s = ((i - 1) * i) \<and> (i \<le> n + 1)}
+DO
+  s := s + i;
+  i := i + 1
+OD
+{2 * s = (n * (n + 1))}"
+  apply vcg_simp
+   apply (auto simp add: algebra_simps le_Suc_eq)
+  done
+
+
 (*3*)
 
 function perm::"nat list \<Rightarrow> nat list \<Rightarrow> bool" 
   where "perm [] [] = True" |
 "perm [] (y#ys) = False" |
-"perm (x#xs) ys = (if length (x#xs) \<noteq> length ys then False 
-                  else perm (removeAll x xs) (removeAll x ys))"
+"perm (x#xs) ys = perm (removeAll x xs) (removeAll x ys)"
   apply (metis list.exhaust subset_eq_mset_impl.cases)
   apply (auto)
   done
-
-
 (*4*)
 
 datatype tree0 = Node tree0 tree0 | Nil
