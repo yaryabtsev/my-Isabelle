@@ -63,15 +63,52 @@ OD
   done
 
 
+(*fun sum_upto :: "nat \<Rightarrow> nat"
+  where "sum_upto 0 = 0" |
+"sum_upto (Suc a) = Suc a + (sum_upto (a))"
+
+lemma eq_sum[simp]:"sum 0 n =sum_upto n"
+  apply(induct n)
+  oops
+
+
+lemma nsum[simp]:  "(sum 0 (Suc(n))) = ((sum 0 n) + (sum (Suc(n)) (Suc(n))))"
+  apply(induct n)
+   apply (simp)
+  oops*)
+lemma   "(sum 0 n) = (n*(n+1))div 2"
+proof(induct n)
+  case 0
+  then show ?case by simp
+next
+  case (Suc n)
+  then show ?case sorry
+qed
+
+
+lemma qsum: "(sum 0 n) = (n*(n+1))div 2"
+  apply(induct n)
+   apply (simp)
+  quickcheck  
+                                                                                                     oops
+
 (*3*)
+lemma ll[simp]: "length (removeAll x xs) < Suc (length xs)"
+  apply(induct xs)
+   apply(auto)
+  done
 
 function perm::"nat list \<Rightarrow> nat list \<Rightarrow> bool" 
   where "perm [] [] = True" |
 "perm [] (y#ys) = False" |
 "perm (x#xs) ys = perm (removeAll x xs) (removeAll x ys)"
   apply (metis list.exhaust subset_eq_mset_impl.cases)
-  apply (auto)
+  by (auto)
+termination perm
+ apply (relation "measure (\<lambda>(xs,xy). length(xs) )")
+   apply auto
   done
+
 (*4*)
 
 datatype tree0 = Node tree0 tree0 | Nil

@@ -2,18 +2,18 @@ theory hw4
   imports Main
 begin
 (*1*)
-lemma neg: "( A \<longrightarrow> False) \<Longrightarrow> \<not> A "
-  by (auto)
-lemma or: " ((A \<longrightarrow> False) \<longrightarrow> B) \<Longrightarrow>  A \<or> B "
-  by (auto)
-lemma eq: "((A \<longrightarrow> B) \<and> (B \<longrightarrow> A)) \<Longrightarrow> A = B"
-  by(auto)
+lemma neg: "\<not>A \<equiv> ( A \<longrightarrow> False)"
+  by simp
+lemma or: "A \<or> B \<equiv> ((A \<longrightarrow> False) \<longrightarrow> B)"
+  by argo
+ (* by smt*)
+lemma eq: "(A = B) \<equiv>((A \<longrightarrow> B) \<and> (B \<longrightarrow> A))"
+  by argo
+  (*by linarith*)
 
-lemma"A\<or>((B\<and>C) = A)"
-  apply(rule or)
-  apply(rule impI)
-  apply(rule eq)
-  oops
+lemma"(A\<or>((B\<and>C) = A)) \<equiv> ((A \<longrightarrow> False) \<longrightarrow> (((B\<and>C) \<longrightarrow> A) \<and> (A \<longrightarrow> (B\<and>C))))"
+  by argo
+ (*by smt*)
 
 (*1*)
 lemma I: "A \<longrightarrow> A"

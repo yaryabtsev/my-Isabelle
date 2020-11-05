@@ -71,10 +71,11 @@ lemma about_reverse2[simp] : " reverse(snoc xs a) = (a # reverse(xs)) "
   apply (induction xs)
    apply (auto)
   done
-lemma snoc_rev[simp] : " reverse (a # xs) = snoc (reverse xs) a "
+
+(*lemma snoc_rev[simp] : " reverse (a # xs) = snoc (reverse xs) a "
   apply(induction xs)
   apply(auto)
-  done
+  done*)
 
 lemma rev_reverse[simp] : "reverse (reverse xs) = xs"
   apply(induction xs)

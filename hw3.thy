@@ -120,28 +120,14 @@ begin
 
 lemma three_points_not_on_line_alt:
   "\<exists>a b c. a \<noteq> b \<and> a \<noteq> c \<and> b \<noteq> c \<and> (\<forall>l. on a l \<and> on b l \<longrightarrow> \<not> on c l)"
-proof -
-  obtain a b c 
-    where distinct: "a \<noteq> b \<and> a \<noteq> c \<and> b \<noteq> c" 
-                    "\<not> (\<exists>l. on a l \<and> on b l \<and> on c l)" 
-    using three_points_not_on_line by blast
-  then have "\<forall>l. on a l \<and> on b l \<longrightarrow> \<not> on c l"
-    by blast
-  thus ?thesis using distinct by blast
-qed        
+  using three_points_not_on_line by blast    
   
 lemma exists_pt_not_on_line: "\<exists>x. \<not> on x l"
-proof -
-   obtain a b c where l3: "\<not> (on a l \<and> on b l \<and> on c l)" using three_points_not_on_line by blast 
-   thus ?thesis by blast 
- qed
+  using three_points_not_on_line_alt by auto
 
 lemma two_lines_unique_intersect_pt:
   assumes lm: "l\<noteq>m \<and> on x l \<and> on x m \<and> on y l \<and> on y m" shows "x=y"
-proof(rule ccontr)
-  assume "x\<noteq>y" then have "l=m" using line_on_two_pts_unique assms by blast
-  thus False using lm by simp
-qed
+  using line_on_two_pts_unique lm by auto
 
 end
 
